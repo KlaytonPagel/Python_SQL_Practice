@@ -17,9 +17,16 @@ def show_tables():
     for table in dbcursor:
         print(table)
 
+# create a new table
+def create_table(table_name, table_rows):
+    query = "CREATE TABLE {} {}"
+    query = query.format(table_name, table_rows)
+    print(query)
+    dbcursor.execute(query)
+
 
 # show all columns in a table
-def show_columns(table):
+def show_rows(table):
     query = "SELECT * FROM {}"
     query = query.format(table)
     dbcursor.execute(query)
@@ -36,4 +43,4 @@ def add_rows(table, values):
     testdb.commit()
 
 
-show_columns('login_credentials')
+show_tables()
