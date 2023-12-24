@@ -8,6 +8,7 @@ testdb = mysql.connector.connect(
 )
 
 dbcursor = testdb.cursor()
+item_ids = {}
 
 
 # show tables in the database
@@ -35,12 +36,20 @@ def show_rows(table):
         print(column)
 
 # Adds rows to your database
-def add_rows(table, values):
-    query = "INSERT INTO {} (username, password) VALUES (%s, %s)"
-    query = query.format(table)
-    dbcursor.execute(query, values)
+def add_rows(table, columns, values):
+    query = "INSERT INTO {} {} VALUES {}"
+    query = query.format(table, columns, values)
+    dbcursor.execute(query)
+
+    testdb.commit()
+
+# update existing entry
+def update_row(table, new_column, new_row, old_column, old_row):
+    query = "UPDATE {} SET {} = {} WHERE {} = {}"
+    query = query.format(table, new_column, new_row, old_column, old_row)
+    dbcursor.execute(query)
 
     testdb.commit()
 
 
-show_tables()
+show_rows('item_ids')
